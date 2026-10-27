@@ -1257,7 +1257,7 @@ button{cursor:pointer;font-family:var(--sans)}
 .dropin-xf-item.active{opacity:1;visibility:visible;transition:opacity .45s ease .15s,visibility 0s}
 .dropin-xf-item .timeline-badge{display:inline-block;margin-bottom:14px}
 .dropin-xf-item .finder3d-bio{margin-bottom:10px}
-@media(max-width:768px){.dropin-xf .finder3d-card-title{font-size:clamp(28px,8.5vw,44px);letter-spacing:.08em}.dropin-xf .finder3d-card img{object-fit:cover;object-position:center 30%}.dropin-xf #class4_img{object-position:left 30%}}
+@media(max-width:768px){.dropin-xf .finder3d-card-title{font-size:clamp(28px,8.5vw,44px);letter-spacing:.08em}.dropin-xf .finder3d-card img{object-fit:cover;object-position:center 30%}}
 
 /* Om oss photo is ungraded, so it gets the documentary photo filter
    (same family as founder, corporate and kids images). */
