@@ -2173,6 +2173,61 @@ initMobileCarousel('membershipsSecondary','membershipsSecondaryDots','.membershi
 (function(){
   var track = document.getElementById('newsTeaserTrack');
   if(!track) return;
+
+  // Slow automatic drift that the visitor can grab and swipe at any time.
+  // The wrap is a native horizontal scroller, so swiping gets real momentum;
+  // the drift steps aside while someone is touching, hovering or flicking,
+  // and resumes a moment after they let go.
+  function startNewsDrift(){
+    var wrap = track.parentElement;
+    var cards = track.children;
+    var n = cards.length / 3;
+    if (!wrap || !n) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var setW = 0, pos = 0, last = 0, lastUser = 0, touching = false, hovering = false;
+    var IDLE_MS = 2500, SECONDS_PER_SET = 38;
+
+    function measure(){ setW = cards[n].offsetLeft - cards[0].offsetLeft; }
+    function wrapPos(){
+      if (!setW) return;
+      if (wrap.scrollLeft < setW * 0.5) wrap.scrollLeft += setW;
+      else if (wrap.scrollLeft >= setW * 1.5) wrap.scrollLeft -= setW;
+      pos = wrap.scrollLeft;
+    }
+    function markUser(){ lastUser = Date.now(); }
+
+    measure();
+    wrap.scrollLeft = pos = setW;
+
+    wrap.addEventListener('touchstart', function(){ touching = true; markUser(); }, {passive:true});
+    wrap.addEventListener('touchend', function(){ touching = false; markUser(); }, {passive:true});
+    wrap.addEventListener('touchcancel', function(){ touching = false; markUser(); }, {passive:true});
+    wrap.addEventListener('wheel', markUser, {passive:true});
+    wrap.addEventListener('mouseenter', function(){ hovering = true; });
+    wrap.addEventListener('mouseleave', function(){ hovering = false; });
+    wrap.addEventListener('scroll', function(){
+      // any scroll we did not cause ourselves (e.g. momentum after a flick) counts as the user
+      if (Math.abs(wrap.scrollLeft - pos) > 2) markUser();
+      if (!touching) wrapPos();
+    }, {passive:true});
+    window.addEventListener('resize', function(){ measure(); wrapPos(); });
+
+    function tick(t){
+      var dt = last ? Math.min(t - last, 100) : 0;
+      last = t;
+      var idle = !touching && !hovering && Date.now() - lastUser > IDLE_MS;
+      if (!reduce && idle && setW){
+        pos += setW / SECONDS_PER_SET * dt / 1000;
+        if (pos >= setW * 1.5) pos -= setW;
+        wrap.scrollLeft = pos;
+      } else {
+        pos = wrap.scrollLeft;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   var query = encodeURIComponent('*[_type == "newsPost" && publishedAt <= now()] | order(publishedAt desc)[0...10]{title, tag, publishedAt, mainImage}');
   var url = 'https://'+SANITY_PROJECT_ID+'.apicdn.sanity.io/v'+SANITY_API_VERSION+'/data/query/'+SANITY_DATASET+'?query='+query;
 
@@ -2196,8 +2251,9 @@ initMobileCarousel('membershipsSecondary','membershipsSecondaryDots','.membershi
         + (date ? '<span class="news-teaser-card-date">'+esc(date)+'</span>' : '')
         + '</div></a>';
     }).join('');
-    // duplicate for a seamless continuous loop, matching the marquee pattern
-    track.innerHTML = cardsHtml + cardsHtml;
+    // three copies so the strip can loop seamlessly in both swipe directions
+    track.innerHTML = cardsHtml + cardsHtml + cardsHtml;
+    startNewsDrift();
   }).catch(function(){
     track.innerHTML = '<p style="color:var(--muted);font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:0 40px">Kunde inte ladda nyheter.</p>';
   });

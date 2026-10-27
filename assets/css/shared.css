@@ -1132,9 +1132,9 @@ button{cursor:pointer;font-family:var(--sans)}
 /* ── HOMEPAGE NEWS TEASER (sliding image strip) ── */
 .news-teaser{padding:100px 0;background:radial-gradient(circle 320px at 50% 10%,rgba(116,194,188,0.14),transparent 70%),radial-gradient(circle 320px at 50% 90%,rgba(116,194,188,0.14),transparent 70%),var(--bg);border-top:1px solid var(--line);overflow:hidden}
 .news-teaser-head{max-width:1180px;margin:0 auto 48px;padding:0 40px;text-align:center}
-.news-teaser-track-wrap{width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.news-teaser-track{display:inline-flex;gap:24px;animation:newsTeaserScroll 38s linear infinite;padding:0 24px}
-.news-teaser:hover .news-teaser-track{animation-play-state:paused}
+.news-teaser-track-wrap{width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.news-teaser-track-wrap::-webkit-scrollbar{display:none}
+.news-teaser-track{display:flex;width:max-content;gap:24px;padding:0 24px}
 @keyframes newsTeaserScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .news-teaser-card{flex:0 0 300px;display:block;text-decoration:none;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--bg2);transition:border-color .25s,transform .25s;box-shadow:var(--shadow-card)}
 .news-teaser-card:hover{border-color:rgba(116,194,188,.4);transform:translateY(-3px)}
