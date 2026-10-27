@@ -1257,6 +1257,7 @@ button{cursor:pointer;font-family:var(--sans)}
 .dropin-xf-item.active{opacity:1;visibility:visible;transition:opacity .45s ease .15s,visibility 0s}
 .dropin-xf-item .timeline-badge{display:inline-block;margin-bottom:14px}
 .dropin-xf-item .finder3d-bio{margin-bottom:10px}
+@media(min-width:769px){.dropin-xf .finder3d-stage{width:min(460px,100%);height:auto;max-height:none;aspect-ratio:4/5;margin:0 auto;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-card);border:1px solid rgba(116,194,188,.25)}.dropin-xf .finder3d-card img{object-fit:cover;object-position:center 30%}.dropin-xf .finder3d-card-title{font-size:clamp(34px,3.4vw,48px);letter-spacing:.1em}}
 @media(max-width:768px){.dropin-xf .finder3d-card-title{font-size:clamp(28px,8.5vw,44px);letter-spacing:.08em}.dropin-xf .finder3d-card img{object-fit:cover;object-position:center 30%}}
 
 /* Om oss photo is ungraded, so it gets the documentary photo filter
