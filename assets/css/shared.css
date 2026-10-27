@@ -700,6 +700,7 @@ button{cursor:pointer;font-family:var(--sans)}
   .navbar .lang-btn{display:none}
   .nav-cta{display:none}
   .hero-content{padding:0 20px 60px}
+  .hero-bg{bottom:auto;height:70%;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent);mask-image:linear-gradient(to bottom,#000 72%,transparent)}
   .hero h1{font-size:clamp(60px,18vw,100px)}
   .dropin-wrap{text-align:center;gap:20px}
   .dropin-heading-block{padding:0 20px}
